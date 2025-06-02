@@ -7,6 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "4a69317ed5c04b659f892b58af8ac40c"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <style>
     button {
       margin: 3px;
@@ -95,13 +103,92 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } 
+      catch (error) {
+        if (error instanceof SyntaxError) {
+          alert('Syntax Error: Please check your input.');
+        } else if (error instanceof ReferenceError) {
+          alert('Reference Error: Please check your variable names.');
+        } else if (error instanceof TypeError) {
+          alert('Type Error: Please ensure you are using the correct data types.');
+        } else {
+          alert('An unexpected error occurred: ' + error.message);
+        }
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', function() {
+      console.log('CONSOLE LOG');
+    });
+
+    errorBtns[1].addEventListener('click', function() {
+      console.error('CONSOLE ERROR');
+    });
+
+    errorBtns[2].addEventListener('click', function() {
+      console.count('Counter: ');
+    })
+
+    errorBtns[3].addEventListener('click', function() {
+      console.warn('CONSOLE WARN');
+    });
+
+    errorBtns[4].addEventListener('click', function() {
+      let condition = false;
+      let reason = 'expected condition to be true';
+      console.assert(condition, {condition, reason});
+    });
+
+    errorBtns[5].addEventListener('click', function() {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', function() {
+      console.dir(document.querySelector('form'));
+    });
+
+    errorBtns[7].addEventListener('click', function() {
+      console.dirxml(document.querySelector('form'));
+    });
+  
+    errorBtns[8].addEventListener('click', function() {
+      console.group('Group Start');
+    });
+
+    errorBtns[9].addEventListener('click', function() {
+      console.groupEnd();
+    });
+
+    errorBtns[10].addEventListener('click', function() {
+      console.table([{a: 1, b: 2}, {a: 3, b: 4}]);
+    });
+
+    errorBtns[11].addEventListener('click', function() {
+      console.time('Timer');
+    });
+
+    errorBtns[12].addEventListener('click', function() {
+      console.timeEnd('Timer');
+    });
+
+    errorBtns[13].addEventListener('click', function() {
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { console.trace(); };
+      first();
+    });
+
+    errorBtns[14].addEventListener('click', function() {
+      console.log('something broke');
+      throw new Error('OH NO! GLOBAL ERROR! :(');
+    });
   </script>
 </body>
 
